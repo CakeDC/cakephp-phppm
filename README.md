@@ -1,11 +1,6 @@
 CakePHP PHP PM Bridge
 ===================
 
-[![Bake Status](https://secure.travis-ci.org/CakeDC/cakephp-phppm.png?branch=master)](http://travis-ci.org/CakeDC/cakephp-phppm)
-[![Downloads](https://poser.pugx.org/CakeDC/cakephp-phppm/d/total.png)](https://packagist.org/packages/CakeDC/cakephp-phppm)
-[![Latest Version](https://poser.pugx.org/CakeDC/cakephp-phppm/v/stable.png)](https://packagist.org/packages/CakeDC/cakephp-phppm)
-[![License](https://poser.pugx.org/CakeDC/cakephp-phppm/license.svg)](https://packagist.org/packages/CakeDC/cakephp-phppm)
-
 Alpha. Please use at your own risk.
 
 CakePHP Bridge to use with PHP-PM project.
@@ -15,11 +10,47 @@ Requirements
 
 * CakePHP ^3.5
 * PHP ^5.6
+* phpcgi installed
+* php_pcntl extension installed and enabled
 
-Documentation
+Setup
 -------------
 
-For documentation, as well as tutorials, see the [Docs](Docs/Home.md) directory of this repository.
+* Via composer, add to your composer.json
+
+    "symfony/console": "^3.0",
+    "symfony/debug": "^3.0",
+    "symfony/process": "^2.6",
+    "cakedc/cakephp-phppm": "dev-master"
+
+Note we need to downgrade symfony dependencies to make it work with the existing release of php-pm.
+
+Run
+---
+
+* Execute the PM via command line
+  * For MAX performance
+
+   vendor/bin/ppm --bridge='\CakeDC\PHPPM\Bridges\Cakephp' start --debug 0 --workers 16 --static-directory webroot > /dev/null
+
+  * For development
+  
+  vendor/bin/ppm --bridge='\CakeDC\PHPPM\Bridges\Cakephp' start --debug 1 --workers 1 --static-directory webroot
+    
+
+Testing it
+----------
+
+* Try some benchmarks
+
+    ab -n 5000 -c 100 http://127.0.0.1:8080/api/posts
+
+Important notes
+-------------
+* This plugin bootstraps your application once, so ensure your bootstrap is not dynamic, for example, no 
+dynamic routes coming from database based on request params.
+* Sessions: we didn't test how the session is interacting now with the bridge. Other bridges had issues with
+the session management.
 
 Support
 -------
