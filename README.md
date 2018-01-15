@@ -3,7 +3,7 @@ CakePHP PHP PM Bridge
 
 Alpha. Please use at your own risk.
 
-CakePHP Bridge to use with PHP-PM project.
+CakePHP Bridge to use with PHP-PM project (https://github.com/php-pm/php-pm).
 
 Requirements
 ------------
