@@ -1,6 +1,15 @@
 <?php
-namespace CakeDC\PHPPM\Bridges;
+/**
+ * Copyright 2010 - 2018, Cake Development Corporation (https://www.cakedc.com)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright Copyright 2010 - 2018, Cake Development Corporation (https://www.cakedc.com)
+ * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+ */
 
+namespace CakeDC\PHPPM\Bridges;
 
 use App\Application;
 use Cake\Http\MiddlewareQueue;
@@ -21,17 +30,27 @@ class Cakephp implements BridgeInterface
     protected $server;
 
     /**
+     * @var string root path
+     */
+    protected $root;
+
+    public function __construct()
+    {
+        $this->root = dirname(__DIR__, 5);
+    }
+
+    /**
      * Bootstrap an application
      *
      * @param string|null $appBootstrap The environment your application will use to bootstrap (if any)
      * @param string $appenv
-     * @param boolean $debug If debug is enabled
+     * @param bool $debug If debug is enabled
      */
     public function bootstrap($appBootstrap, $appenv, $debug)
     {
-        require dirname(dirname(dirname(__DIR__))) . '/config/requirements.php';
-        require dirname(dirname(dirname(__DIR__))) . '/vendor/autoload.php';
-        $this->application = new Application(dirname(dirname(dirname(__DIR__))) . '/config');
+        require $this->root . '/config/requirements.php';
+        require $this->root . '/vendor/autoload.php';
+        $this->application = new Application($this->root . '/config');
         $this->application->bootstrap();
         $this->server = new Server($this->application);
     }
@@ -46,7 +65,7 @@ class Cakephp implements BridgeInterface
     public function handle(ServerRequestInterface $request)
     {
         $response = new Response();
-        $request = $request ?: ServerRequestFactory::fromGlobals();
+        $request = ServerRequestFactory::fromGlobals();
 
         $middleware = $this->application->middleware(new MiddlewareQueue());
         if (!($middleware instanceof MiddlewareQueue)) {
