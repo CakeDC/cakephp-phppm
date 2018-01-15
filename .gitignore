@@ -1,0 +1,6 @@
+/tmp
+/vendor
+/.idea
+composer.lock
+.php_cs*
+/coverage
