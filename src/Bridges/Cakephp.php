@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright 2010 - 2018, Cake Development Corporation (https://www.cakedc.com)
+ * Copyright 2010 - 2019, Cake Development Corporation (https://www.cakedc.com)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright Copyright 2010 - 2018, Cake Development Corporation (https://www.cakedc.com)
+ * @copyright Copyright 2010 - 2019, Cake Development Corporation (https://www.cakedc.com)
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
@@ -34,9 +34,12 @@ class Cakephp implements BridgeInterface
      */
     protected $root;
 
+    protected $application;
+
     public function __construct()
     {
         $this->root = dirname(__DIR__, 5);
+
     }
 
     /**
@@ -52,6 +55,9 @@ class Cakephp implements BridgeInterface
         require $this->root . '/vendor/autoload.php';
         $this->application = new Application($this->root . '/config');
         $this->application->bootstrap();
+        if ($this->application instanceof \Cake\Core\PluginApplicationInterface) {
+            $this->application->pluginBootstrap();
+        }
         $this->server = new Server($this->application);
     }
 
@@ -68,6 +74,10 @@ class Cakephp implements BridgeInterface
         $request = ServerRequestFactory::fromGlobals();
 
         $middleware = $this->application->middleware(new MiddlewareQueue());
+        if ($this->application instanceof \Cake\Core\PluginApplicationInterface) {
+            $middleware = $this->application->pluginMiddleware($middleware);
+        }
+
         if (!($middleware instanceof MiddlewareQueue)) {
             throw new \RuntimeException('The application `middleware` method did not return a middleware queue.');
         }
