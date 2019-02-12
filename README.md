@@ -18,12 +18,7 @@ Setup
 
 * Via composer, add to your composer.json
 
-    "symfony/console": "^3.0",
-    "symfony/debug": "^3.0",
-    "symfony/process": "^2.6",
     "cakedc/cakephp-phppm": "dev-master"
-
-Note we need to downgrade symfony dependencies to make it work with the existing release of php-pm.
 
 Run
 ---
