@@ -8,7 +8,7 @@ CakePHP Bridge to use with PHP-PM project (https://github.com/php-pm/php-pm).
 Requirements
 ------------
 
-* CakePHP ^3.5
+* CakePHP ^3.6
 * PHP ^5.6
 * phpcgi installed
 * php_pcntl extension installed and enabled
