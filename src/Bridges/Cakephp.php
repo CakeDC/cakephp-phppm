@@ -39,7 +39,6 @@ class Cakephp implements BridgeInterface
     public function __construct()
     {
         $this->root = dirname(__DIR__, 5);
-
     }
 
     /**
