@@ -13,14 +13,12 @@ namespace CakeDC\PHPPM\Bridges;
 
 use App\Application;
 use Cake\Core\PluginApplicationInterface;
-use Cake\Error\Debugger;
 use Cake\Http\BaseApplication;
 use Cake\Http\MiddlewareQueue;
 use Cake\Http\Response;
 use Cake\Http\Runner;
 use Cake\Http\Server;
 use Cake\Http\ServerRequestFactory;
-use Cake\Log\Log;
 use PHPPM\Bridges\BridgeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
