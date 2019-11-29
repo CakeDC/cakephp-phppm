@@ -12,6 +12,8 @@
 namespace CakeDC\PHPPM\Bridges;
 
 use App\Application;
+use Cake\Core\PluginApplicationInterface;
+use Cake\Http\BaseApplication;
 use Cake\Http\MiddlewareQueue;
 use Cake\Http\Response;
 use Cake\Http\Runner;
@@ -23,23 +25,15 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class Cakephp implements BridgeInterface
 {
-
     /**
      * @var Server
      */
     protected $server;
 
     /**
-     * @var string root path
+     * @var BaseApplication $application
      */
-    protected $root;
-
     protected $application;
-
-    public function __construct()
-    {
-        $this->root = dirname(__DIR__, 5);
-    }
 
     /**
      * Bootstrap an application
@@ -50,9 +44,10 @@ class Cakephp implements BridgeInterface
      */
     public function bootstrap($appBootstrap, $appenv, $debug)
     {
-        require $this->root . '/config/requirements.php';
-        require $this->root . '/vendor/autoload.php';
-        $this->application = new Application($this->root . '/config');
+        $root = dirname(__DIR__, 5);
+        require $root . '/config/requirements.php';
+        require $root . '/vendor/autoload.php';
+        $this->application = new Application($root . '/config');
         $this->application->bootstrap();
         if ($this->application instanceof \Cake\Core\PluginApplicationInterface) {
             $this->application->pluginBootstrap();
@@ -67,13 +62,13 @@ class Cakephp implements BridgeInterface
      *
      * @return ResponseInterface
      */
-    public function handle(ServerRequestInterface $request)
+    public function handle(ServerRequestInterface $request) : ResponseInterface
     {
         $response = new Response();
         $request = ServerRequestFactory::fromGlobals();
 
         $middleware = $this->application->middleware(new MiddlewareQueue());
-        if ($this->application instanceof \Cake\Core\PluginApplicationInterface) {
+        if ($this->application instanceof PluginApplicationInterface) {
             $middleware = $this->application->pluginMiddleware($middleware);
         }
 
