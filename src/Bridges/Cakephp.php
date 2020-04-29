@@ -65,9 +65,7 @@ class Cakephp implements BridgeInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        if (class_exists('\CakeDC\Api\Service\ServiceRegistry')) {
-            \CakeDC\Api\Service\ServiceRegistry::getServiceLocator()->clear();
-        }
+        $this->resetApiServiceRegistry();
         $request = ServerRequestFactory::fromGlobals();
         $middleware = $this->application->middleware(new MiddlewareQueue());
         if ($this->application instanceof PluginApplicationInterface) {
@@ -90,5 +88,14 @@ class Cakephp implements BridgeInterface
         }
 
         return $response;
+    }
+
+    protected function resetApiServiceRegistry()
+    {
+        $serviceRegistryClass = '\CakeDC\Api\Service\ServiceRegistry';
+        if (class_exists($serviceRegistryClass)) {
+            $locator = call_user_func($serviceRegistryClass.'::getServiceLocator');
+            $locator->clear();
+        }
     }
 }
