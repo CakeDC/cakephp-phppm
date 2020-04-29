@@ -12,6 +12,7 @@ Requirements
 * PHP ^5.6
 * phpcgi installed
 * php_pcntl extension installed and enabled
+* Note there is a branch for CakePHP 4, use `dev-cake4`
 
 Setup
 -------------
