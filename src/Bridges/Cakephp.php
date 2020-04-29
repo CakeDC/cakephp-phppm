@@ -63,7 +63,7 @@ class Cakephp implements BridgeInterface
      *
      * @return ResponseInterface
      */
-    public function handle(ServerRequestInterface $request) : ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         if (class_exists('\CakeDC\Api\Service\ServiceRegistry')) {
             \CakeDC\Api\Service\ServiceRegistry::getServiceLocator()->clear();
