@@ -13,6 +13,7 @@ namespace CakeDC\PHPPM\Bridges;
 
 use App\Application;
 use Cake\Core\PluginApplicationInterface;
+use Cake\Error\Debugger;
 use Cake\Http\BaseApplication;
 use Cake\Http\MiddlewareQueue;
 use Cake\Http\Response;
@@ -45,8 +46,8 @@ class Cakephp implements BridgeInterface
     public function bootstrap($appBootstrap, $appenv, $debug)
     {
         $root = dirname(__DIR__, 5);
-        require $root . '/config/requirements.php';
-        require $root . '/vendor/autoload.php';
+        require_once $root . '/config/requirements.php';
+        require_once $root . '/vendor/autoload.php';
         $this->application = new Application($root . '/config');
         $this->application->bootstrap();
         if ($this->application instanceof \Cake\Core\PluginApplicationInterface) {
@@ -64,9 +65,10 @@ class Cakephp implements BridgeInterface
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        $response = new Response();
+        if (class_exists('\CakeDC\Api\Service\ServiceRegistry')) {
+            \CakeDC\Api\Service\ServiceRegistry::getServiceLocator()->clear();
+        }
         $request = ServerRequestFactory::fromGlobals();
-
         $middleware = $this->application->middleware(new MiddlewareQueue());
         if ($this->application instanceof PluginApplicationInterface) {
             $middleware = $this->application->pluginMiddleware($middleware);
@@ -78,7 +80,7 @@ class Cakephp implements BridgeInterface
         $this->server->dispatchEvent('Server.buildMiddleware', ['middleware' => $middleware]);
         $middleware->add($this->application);
         $runner = new Runner();
-        $response = $runner->run($middleware, $request, $response);
+        $response = $runner->run($middleware, $request);
 
         if (!($response instanceof ResponseInterface)) {
             throw new \RuntimeException(sprintf(
