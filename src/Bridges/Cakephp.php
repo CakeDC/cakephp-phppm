@@ -94,7 +94,7 @@ class Cakephp implements BridgeInterface
     {
         $serviceRegistryClass = '\CakeDC\Api\Service\ServiceRegistry';
         if (class_exists($serviceRegistryClass)) {
-            $locator = call_user_func($serviceRegistryClass.'::getServiceLocator');
+            $locator = call_user_func($serviceRegistryClass . '::getServiceLocator');
             $locator->clear();
         }
     }
