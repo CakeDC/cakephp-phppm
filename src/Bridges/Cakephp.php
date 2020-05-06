@@ -50,6 +50,10 @@ class Cakephp implements BridgeInterface
         require_once $root . '/vendor/autoload.php';
         $this->application = new Application($root . '/config');
         $this->application->bootstrap();
+        // handle empty base issue
+        if (!Configure::read('App.base')) {
+            Configure::write('App.base', '/index.php');
+        }
         if ($this->application instanceof \Cake\Core\PluginApplicationInterface) {
             $this->application->pluginBootstrap();
         }
