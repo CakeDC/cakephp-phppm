@@ -1,18 +1,18 @@
 CakePHP PHP PM Bridge
-===================
+=====================
 
 Alpha. Please use at your own risk.
+IMPORTANT: Cookies not working at this point, so no sessions or Csrf available
 
 CakePHP Bridge to use with PHP-PM project (https://github.com/php-pm/php-pm).
 
 Requirements
 ------------
 
-* CakePHP ^3.6
-* PHP ^5.6
+* CakePHP ^4.0
+* PHP ^7.2
 * phpcgi installed
 * php_pcntl extension installed and enabled
-* Note there is a branch for CakePHP 4, use `dev-cake4`
 
 Setup
 -------------
@@ -27,12 +27,12 @@ Run
 * Execute the PM via command line
   * For MAX performance
 
-   vendor/bin/ppm --bridge='\CakeDC\PHPPM\Bridges\Cakephp' start --debug 0 --workers 16 --static-directory webroot > /dev/null
+   vendor/bin/ppm --bridge='\CakeDC\PHPPM\Bridges\Cakephp' start --debug 0 --workers 9 --logging 0 --static-directory webroot
 
   * For development
-  
+
   vendor/bin/ppm --bridge='\CakeDC\PHPPM\Bridges\Cakephp' start --debug 1 --workers 1 --static-directory webroot
-    
+
 
 Testing it
 ----------
@@ -43,10 +43,11 @@ Testing it
 
 Important notes
 -------------
-* This plugin bootstraps your application once, so ensure your bootstrap is not dynamic, for example, no 
+
+* Cookies: they are not working properly now, so you won't have sessions OR Csrf properly working, if you
+are providing an API this is not something that should bother you too much anyway...
+* This plugin bootstraps your application once, so ensure your bootstrap is not dynamic, for example, no
 dynamic routes coming from database based on request params.
-* Sessions: we didn't test how the session is interacting now with the bridge. Other bridges had issues with
-the session management.
 
 Support
 -------

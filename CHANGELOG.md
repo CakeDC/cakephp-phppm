@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Releases for CakePHP 4
+-------------
+
+* 1.0.0
+  * Initial release
+
 Releases for CakePHP 3
 -------------
 
