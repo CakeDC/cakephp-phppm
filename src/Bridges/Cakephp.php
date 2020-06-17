@@ -14,6 +14,7 @@ namespace CakeDC\PHPPM\Bridges;
 use App\Application;
 use Cake\Core\Configure;
 use Cake\Core\PluginApplicationInterface;
+use Cake\Error\Debugger;
 use Cake\Http\BaseApplication;
 use Cake\Http\MiddlewareQueue;
 use Cake\Http\Response;
@@ -47,8 +48,8 @@ class Cakephp implements BridgeInterface
     public function bootstrap($appBootstrap, $appenv, $debug)
     {
         $root = dirname(__DIR__, 5);
-        require $root . '/config/requirements.php';
-        require $root . '/vendor/autoload.php';
+        require_once $root . '/config/requirements.php';
+        require_once $root . '/vendor/autoload.php';
         $this->application = new Application($root . '/config');
         $this->application->bootstrap();
         if (!Configure::read('App.base')) {
@@ -79,10 +80,10 @@ class Cakephp implements BridgeInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
+        $this->resetApiServiceRegistry();
         $request = ServerRequestFactory::fromGlobals();
 
         $response = $this->runner->run($this->middleware, $request, $this->application);
-
         if ($request instanceof ServerRequest) {
             $request->getSession()->close();
         }
@@ -95,5 +96,14 @@ class Cakephp implements BridgeInterface
         }
 
         return $response;
+    }
+
+    protected function resetApiServiceRegistry()
+    {
+        $serviceRegistryClass = '\CakeDC\Api\Service\ServiceRegistry';
+        if (class_exists($serviceRegistryClass)) {
+            $locator = call_user_func($serviceRegistryClass . '::getServiceLocator');
+            $locator->clear();
+        }
     }
 }
