@@ -77,7 +77,7 @@ class Cakephp implements BridgeInterface
      *
      * @return ResponseInterface
      */
-    public function handle(ServerRequestInterface $request) : ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $request = ServerRequestFactory::fromGlobals();
 
