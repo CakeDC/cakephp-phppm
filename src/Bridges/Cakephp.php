@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * Copyright 2010 - 2019, Cake Development Corporation (https://www.cakedc.com)
  *
@@ -14,10 +16,7 @@ namespace CakeDC\PHPPM\Bridges;
 use App\Application;
 use Cake\Core\Configure;
 use Cake\Core\PluginApplicationInterface;
-use Cake\Error\Debugger;
-use Cake\Http\BaseApplication;
 use Cake\Http\MiddlewareQueue;
-use Cake\Http\Response;
 use Cake\Http\Runner;
 use Cake\Http\Server;
 use Cake\Http\ServerRequest;
@@ -67,9 +66,8 @@ class Cakephp implements BridgeInterface
     /**
      * Handle the request and return a response.
      *
-     * @param ServerRequestInterface $request
-     *
-     * @return ResponseInterface
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
