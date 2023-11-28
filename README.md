@@ -62,6 +62,6 @@ This repository follows the [CakeDC Plugin Standard](https://www.cakedc.com/plug
 License
 -------
 
-Copyright 2018 Cake Development Corporation (CakeDC). All rights reserved.
+Copyright 2018-2023 Cake Development Corporation (CakeDC). All rights reserved.
 
 Licensed under the [MIT](http://www.opensource.org/licenses/mit-license.php) License. Redistributions of the source code included in this repository must retain the copyright notice found in each file.
