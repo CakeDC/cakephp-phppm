@@ -28,15 +28,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class Cakephp implements BridgeInterface
 {
-    /**
-     * @var Server
-     */
-    protected $server;
+    protected Server $server;
 
-    /**
-     * @var BaseApplication $application
-     */
-    protected $application;
+    protected Application $application;
 
     /**
      * Bootstrap an application
@@ -48,7 +42,6 @@ class Cakephp implements BridgeInterface
     public function bootstrap($appBootstrap, $appenv, $debug)
     {
         $root = dirname(__DIR__, 5);
-        require_once $root . '/config/requirements.php';
         require_once $root . '/vendor/autoload.php';
         $this->application = new Application($root . '/config');
         $this->application->bootstrap();
@@ -82,7 +75,6 @@ class Cakephp implements BridgeInterface
     {
         $this->resetApiServiceRegistry();
         $request = ServerRequestFactory::fromGlobals();
-
         $response = $this->runner->run($this->middleware, $request, $this->application);
         if ($request instanceof ServerRequest) {
             $request->getSession()->close();

@@ -9,17 +9,17 @@ CakePHP Bridge to use with PHP-PM project (https://github.com/php-pm/php-pm).
 Requirements
 ------------
 
-* CakePHP ^4.0
-* PHP ^7.2
+* CakePHP ^5.0
+* PHP ^8.0
 * phpcgi installed
 * php_pcntl extension installed and enabled
 
 Setup
--------------
+-----
 
 * Via composer, add to your composer.json
 
-    "cakedc/cakephp-phppm": "dev-master"
+    "cakedc/cakephp-phppm": "dev-2.next-cake5"
 
 Run
 ---
